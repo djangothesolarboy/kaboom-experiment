@@ -12,9 +12,18 @@
         // initialize kaboom context
         const k = kaboom();
 
+        //                  SPRITES
         //          name sprite     sprite location
         k.loadSprite('skele', './assets/imgs/sprites/skele/Faceset.png');
+
+
         k.loadSound('blip', './assets/sounds/blip.wav');
+
+        k.layers([
+            'bg',
+            'obj',
+            'ui',
+        ], 'obj');
 
         // define a scene
         k.scene("main", () => {
@@ -23,6 +32,7 @@
             k.add([
                 k.text("menu", 32),
                 k.pos(100, 100),
+                k.layer('ui'),
             ]);
 
             k.keyPress('space', () => {
@@ -38,6 +48,7 @@
             k.add([
                 k.text('game', 32),
                 k.pos(100, 100),
+                k.layer('ui'),
             ]);
 
             const player = k.add([
