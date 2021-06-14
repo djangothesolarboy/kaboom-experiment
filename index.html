@@ -9,30 +9,51 @@
 <body>
     <script src="https://kaboomjs.com/lib/0.5.1/kaboom.js"></script>
     <script type="module">
-
         // initialize kaboom context
         const k = kaboom();
+
+        //          name sprite     sprite location
+        k.loadSprite('skele', './assets/imgs/sprites/skele/Faceset.png');
+        k.loadSound('blip', './assets/sounds/blip.wav');
 
         // define a scene
         k.scene("main", () => {
 
             // add a text at position (100, 100)
             k.add([
-                k.text("ohhimark", 32),
+                k.text("menu", 32),
                 k.pos(100, 100),
             ]);
 
             k.keyPress('space', () => {
-                k.go('game')
-            })
-
+                k.play('blip', {
+                    volume: 5.0
+                });
+                k.go('game');
+            });
+            
         });
-
+        
         k.scene('game', () => {
             k.add([
                 k.text('game', 32),
                 k.pos(100, 100),
+            ]);
+
+            const player = k.add([
+                k.sprite('skele'),
+                k.pos(100, 100),
+                k.body(),
+                'player',
+                'killable',
             ])
+
+            k.keyPress('space', () => {
+                k.play('blip', {
+                    volume: 5.0
+                });
+                k.go('main');
+            });
         })
 
         // start the game
