@@ -16,6 +16,8 @@
         //          name sprite     sprite location
         k.loadSprite('skele', './assets/imgs/sprites/skele/Faceset.png');
 
+        //                  BACKGROUND SPRITES
+        k.loadSprite('top-left', './assets/imgs/backgrounds/top-left.png');
 
         k.loadSound('blip', './assets/sounds/blip.wav');
 
@@ -54,16 +56,69 @@
             const player = k.add([
                 k.sprite('skele'),
                 k.pos(100, 100),
+                k.scale(1),
                 k.body(),
                 'player',
                 'killable',
-            ])
+                { speed: 160 },
+            ]);
+
+            const map =k.addLevel([
+                '========================================',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '=                                      =',
+                '========================================',
+            ], {
+                width: 16,
+                height: 16,
+                pos: k.vec2(0, 0),
+                '=': [
+                    k.sprite('top-left'),
+                    k.solid()
+                ]
+            });
 
             k.keyPress('space', () => {
                 k.play('blip', {
                     volume: 5.0
                 });
                 k.go('main');
+            });
+
+            k.keyDown('left', () => {
+                player.flipX(-1);
+                player.move(-player.speed, 0);
+            });
+
+            k.keyDown('right', () => {
+                player.flipX(1);
+                player.move(player.speed, 0);
             });
         })
 
