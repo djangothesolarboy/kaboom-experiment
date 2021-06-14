@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kabooooom</title>
+</head>
+<body>
+    <script src="https://kaboomjs.com/lib/0.5.1/kaboom.js"></script>
+    <script type="module">
+
+        // initialize kaboom context
+        const k = kaboom();
+
+        // define a scene
+        k.scene("main", () => {
+
+            // add a text at position (100, 100)
+            k.add([
+                k.text("ohhimark", 32),
+                k.pos(100, 100),
+            ]);
+
+            k.keyPress('space', () => {
+                k.go('game')
+            })
+
+        });
+
+        k.scene('game', () => {
+            k.add([
+                k.text('game', 32),
+                k.pos(100, 100),
+            ])
+        })
+
+        // start the game
+        k.start("main");
+
+    </script>
+</body>
+</html>
