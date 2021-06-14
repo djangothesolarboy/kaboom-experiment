@@ -20,6 +20,7 @@
         k.loadSprite('top-left', './assets/imgs/backgrounds/top-left.png');
 
         k.loadSound('blip', './assets/sounds/blip.wav');
+        k.loadSound('hurt', './assets/sounds/hurt.wav');
 
         k.layers([
             'bg',
@@ -92,8 +93,8 @@
                 '=                                      =',
                 '=                                      =',
                 '=                                      =',
-                '=                                      =',
-                '========================================',
+                '^                                      =',
+                '=^^^^===================================',
             ], {
                 width: 16,
                 height: 16,
@@ -101,7 +102,18 @@
                 '=': [
                     k.sprite('top-left'),
                     k.solid()
+                ],
+                '^': [
+                    k.sprite('top-left'),
+                    k.solid(),
+                    'hurt'
                 ]
+            });
+
+            player.collides('hurt', () => {
+                k.play('hurt', {
+                    volume: 5.0
+                });
             });
 
             k.keyPress('space', () => {
