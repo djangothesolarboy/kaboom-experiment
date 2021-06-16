@@ -15,29 +15,52 @@
         //                  SPRITES
         //          name sprite     sprite location
         k.loadSprite('skele', './assets/imgs/sprites/skele/Faceset.png');
+        // k.loadSprite('skele-idle', './assets/imgs/sprites/skele/Idle.png');
+
+        k.loadSprite('skele-idle', './assets/imgs/sprites/skele/Idle.png', {
+            sliceX: 4,
+            sliceY: 1,
+            anims: {
+                idle: {
+                    from: 0,
+                    to: 3
+                }
+            }
+        })
 
         //                  BACKGROUND SPRITES
         k.loadSprite('top-left', './assets/imgs/backgrounds/top-left.png');
+        k.loadSprite('top-mid', './assets/imgs/backgrounds/top-mid.png');
+        k.loadSprite('top-right', './assets/imgs/backgrounds/top-right.png');
+        k.loadSprite('mid-right', './assets/imgs/backgrounds/mid-right.png');
+        k.loadSprite('mid-left', './assets/imgs/backgrounds/mid-left.png');
+        k.loadSprite('mid-mid', './assets/imgs/backgrounds/mid-mid.png');
+        k.loadSprite('bot-left', './assets/imgs/backgrounds/bot-left.png');
+        k.loadSprite('bot-mid', './assets/imgs/backgrounds/bot-mid.png');
+        k.loadSprite('bot-right', './assets/imgs/backgrounds/bot-right.png');
 
+        //                  SOUNDS
         k.loadSound('blip', './assets/sounds/blip.wav');
         k.loadSound('hurt', './assets/sounds/hurt.wav');
 
+        // creates the order of the layers
         k.layers([
             'bg',
             'obj',
             'ui',
-        ], 'obj');
+        ], 'obj'); // defaults as obj
 
         // define a scene
         k.scene("main", () => {
 
-            // add a text at position (100, 100)
+            // add a text at position
             k.add([
                 k.text("menu", 32),
                 k.pos(100, 100),
                 k.layer('ui'),
             ]);
 
+            // on key press, switches scenes
             k.keyPress('space', () => {
                 k.play('blip', {
                     volume: 5.0
@@ -55,9 +78,10 @@
             ]);
 
             const player = k.add([
-                k.sprite('skele'),
+                k.sprite('skele-idle'),
                 k.pos(100, 100),
                 k.scale(1),
+                k.origin('center'),
                 k.body(),
                 'player',
                 'killable',
@@ -65,42 +89,58 @@
             ]);
 
             const map =k.addLevel([
-                '========================================',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '=                                      =',
-                '^                                      =',
-                '=^^^^===================================',
+                '=--------------------------------------]',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '(                                      )',
+                '^                                      )',
+                '=^^^^----------------------------------]',
             ], {
                 width: 16,
                 height: 16,
                 pos: k.vec2(0, 0),
                 '=': [
                     k.sprite('top-left'),
+                    k.solid()
+                ],
+                '-': [
+                    k.sprite('top-mid'),
+                    k.solid()
+                ],
+                ']': [
+                    k.sprite('top-right'),
+                    k.solid()
+                ],
+                '(': [
+                    k.sprite('mid-left'),
+                    k.solid()
+                ],
+                ')': [
+                    k.sprite('mid-right'),
                     k.solid()
                 ],
                 '^': [
@@ -115,6 +155,8 @@
                     volume: 5.0
                 });
             });
+
+            player.play('idle')
 
             k.keyPress('space', () => {
                 k.play('blip', {
