@@ -14,19 +14,52 @@
 
         //                  SPRITES
         //          name sprite     sprite location
-        k.loadSprite('skele', './assets/imgs/sprites/skele/Faceset.png');
+        // k.loadSprite('skele', './assets/imgs/sprites/skele/Faceset.png');
         // k.loadSprite('skele-idle', './assets/imgs/sprites/skele/Idle.png');
 
-        k.loadSprite('skele-idle', './assets/imgs/sprites/skele/Idle.png', {
+        // k.loadSprite('skele-walk-left', './assets/imgs/sprites/skele/skele-walk-left.png', {
+        //     sliceX: 1,
+        //     sliceY: 4,
+        //     anims: {
+        //         left: {
+        //             from: 0,
+        //             to: 3
+        //         }
+        //     }
+        // });
+
+        k.loadSprite('skele', './assets/imgs/sprites/skele/skele.png', {
             sliceX: 4,
-            sliceY: 1,
+            sliceY: 6,
+            gridWidth: 4,
+            gridHeight: 6,
             anims: {
-                idle: {
+                down: {
                     from: 0,
                     to: 3
+                },
+                up: {
+                    from: 4,
+                    to: 7
+                },
+                right: {
+                    from: 8,
+                    to: 11
+                },
+                left: {
+                    from: 12,
+                    to: 15
+                },
+                idle: {
+                    from: 16,
+                    to: 19
+                },
+                jump: {
+                    from: 20,
+                    to: 23
                 }
             }
-        })
+        });
 
         //                  BACKGROUND SPRITES
         k.loadSprite('top-left', './assets/imgs/backgrounds/top-left.png');
@@ -78,7 +111,7 @@
             ]);
 
             const player = k.add([
-                k.sprite('skele-idle'),
+                k.sprite('skele'),
                 k.pos(100, 100),
                 k.scale(1),
                 k.origin('center'),
@@ -156,7 +189,7 @@
                 });
             });
 
-            player.play('idle')
+            // player.play('idle');
 
             k.keyPress('space', () => {
                 k.play('blip', {
@@ -164,14 +197,42 @@
                 });
                 k.go('main');
             });
+            
+            // k.keyDown('left', () => {
+            //     if (player.grounded() && player.curAnim() !== 'right') {
+            //         player.play('left');
+            //     }
+            // });
+            
+            // k.keyDown('right', () => {
+            //     if (player.grounded() && player.curAnim() !== 'left') {
+            //         player.play('right');
+            //     }
+            // });
 
+            // k.keyDown(['left', 'right'], () => {
+            //     if (player.grounded() && player.curAnim() !== 'left') {
+            //         player.play('right');
+            //     } else {
+            //         player.play('left');
+            //     }
+            // });
+
+            k.keyRelease(['left', 'right'], () => {
+                if (!k.keyIsDown('right') && !k.keyIsDown('left')) {
+                    player.play('idle');
+                }
+            });
+            
             k.keyDown('left', () => {
-                player.flipX(-1);
+                player.play('left');
+                // player.flipX(-1);
                 player.move(-player.speed, 0);
             });
-
+            
             k.keyDown('right', () => {
-                player.flipX(1);
+                player.play('right');
+                // player.flipX(1);
                 player.move(player.speed, 0);
             });
         })
