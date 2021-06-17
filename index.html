@@ -42,11 +42,11 @@
                     from: 4,
                     to: 7
                 },
-                right: {
-                    from: 8,
-                    to: 11
-                },
-                left: {
+                // right: {
+                //     from: 8,
+                //     to: 11
+                // },
+                move: {
                     from: 12,
                     to: 15
                 },
@@ -210,13 +210,11 @@
             //     }
             // });
 
-            // k.keyDown(['left', 'right'], () => {
-            //     if (player.grounded() && player.curAnim() !== 'left') {
-            //         player.play('right');
-            //     } else {
-            //         player.play('left');
-            //     }
-            // });
+            k.keyDown(['left', 'right'], () => {
+                if (player.grounded() && player.curAnim() !== 'move') {
+                    player.play('move');
+                } 
+            });
 
             k.keyRelease(['left', 'right'], () => {
                 if (!k.keyIsDown('right') && !k.keyIsDown('left')) {
@@ -225,14 +223,14 @@
             });
             
             k.keyDown('left', () => {
-                player.play('left');
-                // player.flipX(-1);
+                // player.play('move');
+                player.flipX(1);
                 player.move(-player.speed, 0);
             });
             
             k.keyDown('right', () => {
-                player.play('right');
-                // player.flipX(1);
+                // player.play('move');
+                player.flipX(-1);
                 player.move(player.speed, 0);
             });
         })
