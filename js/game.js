@@ -92,7 +92,7 @@ scene('game', () => {
         pos(100, 100),
         scale(1),
         origin('center'),
-        body(),
+        body({ jumpForce: 320, }),
         'player',
         'killable',
         { speed: 160 },
@@ -151,14 +151,14 @@ scene('game', () => {
         });
     });
 
-    keyPress('space', () => {
-        play('blip', {
-            volume: 5.0
-        });
-        go('main');
-    });
+    // keyPress('space', () => {
+    //     play('blip', {
+    //         volume: 5.0
+    //     });
+    //     go('main');
+    // });
 
-    keyDown(['left', 'right'], () => {
+    keyDown(['left', 'right', 'a', 'd'], () => {
         if (player.grounded() && player.curAnim() !== 'move') {
             player.play('move');
         }
@@ -169,15 +169,27 @@ scene('game', () => {
             player.play('idle');
         }
     });
-
-    keyDown('left', () => {
+    
+    keyDown(['left', 'a'], () => {
         player.flipX(1);
         player.move(-player.speed, 0);
     });
-
-    keyDown('right', () => {
+    
+    keyDown(['right', 'd'], () => {
         player.flipX(-1);
         player.move(player.speed, 0);
+    });
+    
+    keyPress(['space', 'up'], () => {
+        if (player.grounded() && player.curAnim() !== 'jump') {
+            player.play('jump');
+            player.jump(player.jumpForce);
+        }
+    })
+    keyRelease(['space', 'up'], () => {
+        if (!keyIsDown('space') && !keyIsDown('up')) {
+            player.play('idle');
+        }
     });
 })
 
