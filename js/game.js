@@ -32,7 +32,7 @@ loadSprite('skele', './assets/imgs/sprites/skele/skele.png', {
             to: 19
         },
         jump: {
-            from: 20,
+            from: 22,
             to: 23
         }
     }
@@ -52,6 +52,7 @@ loadSprite('bot-right', './assets/imgs/backgrounds/bot-right.png');
 //                  SOUNDS
 loadSound('blip', './assets/sounds/blip.wav');
 loadSound('hurt', './assets/sounds/hurt.wav');
+loadSound('hit', './assets/sounds/hit.wav');
 
 // creates the order of the layers
 layers([
@@ -88,13 +89,13 @@ scene('game', () => {
     ]);
 
     const player = add([
-        sprite('skele'),
+        sprite('skele'), // sprite being used
         pos(100, 100),
         scale(1),
         origin('center'),
         body({ jumpForce: 320, }),
-        'player',
-        'killable',
+        'player', // tags
+        'killable', // tags
         { speed: 160 },
     ]);
 
@@ -151,21 +152,14 @@ scene('game', () => {
         });
     });
 
-    // keyPress('space', () => {
-    //     play('blip', {
-    //         volume: 5.0
-    //     });
-    //     go('main');
-    // });
-
     keyDown(['left', 'right', 'a', 'd'], () => {
         if (player.grounded() && player.curAnim() !== 'move') {
             player.play('move');
         }
     });
 
-    keyRelease(['left', 'right'], () => {
-        if (!keyIsDown('right') && !keyIsDown('left')) {
+    keyRelease(['left', 'right', 'a', 'd'], () => {
+        if ((!keyIsDown('right') || !keyIsDown('a')) && (!keyIsDown('left') || !keyIsDown('d'))) {
             player.play('idle');
         }
     });
@@ -180,14 +174,20 @@ scene('game', () => {
         player.move(player.speed, 0);
     });
     
-    keyPress(['space', 'up'], () => {
+    // key is pressed, starts animation
+    keyPress(['space', 'up', 'w'], () => {
         if (player.grounded() && player.curAnim() !== 'jump') {
+            play('hit', {
+                volume: 5.0
+            });
             player.play('jump');
             player.jump(player.jumpForce);
         }
-    })
-    keyRelease(['space', 'up'], () => {
-        if (!keyIsDown('space') && !keyIsDown('up')) {
+    });
+
+    // when key is released, stops animation
+    keyRelease(['space', 'up', 'w'], () => {
+        if (!keyIsDown('space') && !keyIsDown('up') && !keyIsDown('w')) {
             player.play('idle');
         }
     });
