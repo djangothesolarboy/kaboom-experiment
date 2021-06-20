@@ -1,7 +1,7 @@
 kaboom-experiment
 ---
 This is an experiment using the [kaboom.js](https://kaboomjs.com/) game library.
-[![Image from Gyazo](https://i.gyazo.com/c3539bbdc6c2c22f7b129bd3a4456135.png)](https://gyazo.com/c3539bbdc6c2c22f7b129bd3a4456135)
+[![Image from Gyazo](https://i.gyazo.com/bc28012d9b4d0c1f44a4dec2bc826cea.gif)](https://gyazo.com/bc28012d9b4d0c1f44a4dec2bc826cea)
 
 Assets:
 ---
