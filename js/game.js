@@ -5,11 +5,11 @@ kaboom({
     width: 320, // width of canvas
     height: 240, // height of canvas
     scale: 3 // scales the game up
-})
+});
 
 //                  SPRITES
 //          name sprite     sprite location
-loadSprite('skele', './assets/imgs/sprites/skele/skele.png', {
+loadSprite('skele', '../assets/imgs/sprites/skele/skele.png', {
     sliceX: 4,
     sliceY: 6,
     gridWidth: 4,
@@ -31,9 +31,34 @@ loadSprite('skele', './assets/imgs/sprites/skele/skele.png', {
             from: 16,
             to: 19
         },
-        jump: {
+        jumpup: {
             from: 22,
             to: 23
+        }
+    }
+});
+
+loadSprite('survivor', '../assets/imgs/sprites/survivor/survivor-blue_idle+walk+jump-4strip.png', {
+    sliceX: 4,
+    sliceY: 3,
+    gridWidth: 4,
+    gridHeight: 2,
+    anims: {
+        idle: {
+            from: 0,
+            to: 3
+        },
+        move: {
+            from: 4,
+            to: 7
+        },
+        jumpup: {
+            from: 8,
+            to: 8
+        },
+        jumpdown: {
+            from: 9,
+            to: 9
         }
     }
 });
@@ -48,6 +73,12 @@ loadSprite('mid-mid', './assets/imgs/backgrounds/mid-mid.png');
 loadSprite('bot-left', './assets/imgs/backgrounds/bot-left.png');
 loadSprite('bot-mid', './assets/imgs/backgrounds/bot-mid.png');
 loadSprite('bot-right', './assets/imgs/backgrounds/bot-right.png');
+
+loadSprite('brick-bot-mid', '../assets/imgs/backgrounds/brick/brick-bot.png');
+loadSprite('brick-left', '../assets/imgs/backgrounds/brick/brick_left-bot-end.png');
+loadSprite('brick-right', '../assets/imgs/backgrounds/brick/brick_right-top-end.png');
+loadSprite('brick-one', '../assets/imgs/backgrounds/brick/brick_one.png');
+loadSprite('lava-brick-one', '../assets/imgs/backgrounds/brick/lava-brick_one.png');
 
 //                  SOUNDS
 loadSound('blip', './assets/sounds/blip.wav');
@@ -89,7 +120,7 @@ scene('game', () => {
     ]);
 
     const player = add([
-        sprite('skele'), // sprite being used
+        sprite('survivor'), // sprite being used
         pos(100, 100),
         scale(1),
         origin('center'),
@@ -110,9 +141,9 @@ scene('game', () => {
         '(                  )',
         '(                  )',
         '(                  )',
+        '(      --          )',
         '(                  )',
-        '(                  )',
-        '(                  )',
+        '(         --       )',
         '^                  )',
         '=^^^^--------------]',
     ], {
@@ -120,30 +151,30 @@ scene('game', () => {
         height: 16,
         pos: vec2(0, 0),
         '=': [
-            sprite('top-left'),
+            sprite('brick-left'),
             solid()
         ],
         '-': [
-            sprite('top-mid'),
+            sprite('brick-bot-mid'),
             solid()
         ],
         ']': [
-            sprite('top-right'),
+            sprite('brick-right'),
             solid()
         ],
         '(': [
-            sprite('mid-left'),
+            sprite('brick-one'),
             solid()
         ],
         ')': [
-            sprite('mid-right'),
+            sprite('brick-one'),
             solid()
         ],
         '^': [
-            sprite('top-left'),
+            sprite('lava-brick-one'),
             solid(),
             'hurt'
-        ]
+        ],
     });
 
     player.collides('hurt', () => {
@@ -165,12 +196,12 @@ scene('game', () => {
     });
     
     keyDown(['left', 'a'], () => {
-        player.flipX(1);
+        player.flipX(-1);
         player.move(-player.speed, 0);
     });
     
     keyDown(['right', 'd'], () => {
-        player.flipX(-1);
+        player.flipX(1);
         player.move(player.speed, 0);
     });
     
@@ -180,7 +211,7 @@ scene('game', () => {
             play('hit', {
                 volume: 5.0
             });
-            player.play('jump');
+            player.play('jumpup');
             player.jump(player.jumpForce);
         }
     });
