@@ -2,15 +2,18 @@ kaboom-experiment
 ---
 This is an experiment using the [kaboom.js](https://kaboomjs.com/) game library.
 
-Play the game [here](https://blue-boy.netlify.app/)  
+*Note: The game **does** have sound.*
+
+Play the game [here](https://blue-boy.netlify.app/).  
 
 Controls:
 ---
-- Menu: Press **Space** to start game.
+- Menu: 
+    - Press **Space** to start game.
 - Game: 
-    - **WASD**||**ARROWS** for movement.
+    - **WASD** || **ARROWS** for movement.
     - **R** restarts game.
-    - **SPACE**||**W**||**UP** to jump.
+    - **SPACE** || **W** || **UP** to jump.
 
 [![sprite running and jumping](https://i.gyazo.com/bc28012d9b4d0c1f44a4dec2bc826cea.gif)](https://gyazo.com/bc28012d9b4d0c1f44a4dec2bc826cea)
 
