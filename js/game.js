@@ -177,10 +177,36 @@ scene('game', () => {
         ],
     });
 
-    player.collides('hurt', () => {
-        play('hurt', {
+    const health = add([
+        text('100', 10),
+        pos(4, 4),
+        layer('ui'),
+        {
+            value: 100,
+        },
+    ]);
+
+    health.action(() => {
+        player.collides('hurt', () => {
+            health.value -= 10;
+            play('hurt', {
+                volume: 5.0
+            });
+        });
+        if (health.value <= 0) {
+            destroy(player);
+            go('main');
+        }
+
+        health.text = `health: ${health.value}`;
+    })
+
+    // restarts game
+    keyPress('r', () => {
+        play('blip', {
             volume: 5.0
         });
+        go('game');
     });
 
     keyDown(['left', 'right', 'a', 'd'], () => {
