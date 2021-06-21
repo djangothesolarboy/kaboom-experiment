@@ -32,24 +32,20 @@ loadSprite('survivor', '../assets/imgs/sprites/survivor/survivor-blue_idle+walk+
     }
 });
 
-//                  BACKGROUND SPRITES
-loadSprite('top-left', './assets/imgs/backgrounds/top-left.png');
-loadSprite('top-mid', './assets/imgs/backgrounds/top-mid.png');
-loadSprite('top-right', './assets/imgs/backgrounds/top-right.png');
-loadSprite('mid-right', './assets/imgs/backgrounds/mid-right.png');
-loadSprite('mid-left', './assets/imgs/backgrounds/mid-left.png');
-loadSprite('mid-mid', './assets/imgs/backgrounds/mid-mid.png');
-loadSprite('bot-left', './assets/imgs/backgrounds/bot-left.png');
-loadSprite('bot-mid', './assets/imgs/backgrounds/bot-mid.png');
-loadSprite('bot-right', './assets/imgs/backgrounds/bot-right.png');
+loadSprite('npc-idle', '../assets/imgs/sprites/npc/npc-blue_idle.gif');
 
+//////////////////////////////////////////////////////////
+//                  BACKGROUND SPRITES                  //
+//////////////////////////////////////////////////////////
 loadSprite('brick-bot-mid', '../assets/imgs/backgrounds/brick/brick-bot.png');
 loadSprite('brick-left', '../assets/imgs/backgrounds/brick/brick_left-bot-end.png');
 loadSprite('brick-right', '../assets/imgs/backgrounds/brick/brick_right-top-end.png');
 loadSprite('brick-one', '../assets/imgs/backgrounds/brick/brick_one.png');
 loadSprite('lava-brick-one', '../assets/imgs/backgrounds/brick/lava-brick_one.png');
 
-//                  SOUNDS
+//////////////////////////////////////////////////////////
+//                  SOUNDS                              //
+//////////////////////////////////////////////////////////
 loadSound('blip', './assets/sounds/blip.wav');
 loadSound('hurt', './assets/sounds/hurt.wav');
 loadSound('hit', './assets/sounds/hit.wav');
@@ -92,11 +88,9 @@ scene("main", () => {
 });
 
 scene('game', () => {
-    add([
-        text('game', 32),
-        pos(100, 100),
-        layer('ui'),
-    ]);
+    const left = ['a', 'left'];
+    const right = ['d', 'right'];
+    const jump = ['w', 'space', 'up'];
 
     const player = add([
         sprite('survivor'), // sprite being used
@@ -109,6 +103,13 @@ scene('game', () => {
         { speed: 160 },
     ]);
 
+    const npcs = {
+        'n': {
+            sprite: 'npc-idle',
+            msg: `Oh hello there friend.\nDon't touch the ouchie bricks!`
+        }
+    };
+
     const map = addLevel([
         '=------------------]',
         '(                  )',
@@ -119,7 +120,7 @@ scene('game', () => {
         '(                  )',
         '(                  )',
         '(                  )',
-        '(                  )',
+        '(      n           )',
         '(      --          )',
         '(                  )',
         '(         --       )',
@@ -154,7 +155,31 @@ scene('game', () => {
             solid(),
             'hurt'
         ],
+        any(ch) {
+            const char = npcs[ch];
+            if (char) {
+                return [
+                    sprite(char.sprite),
+                    solid(),
+                    'character',
+                    {
+                        msg: char.msg
+                    },
+                ];
+            }
+        },
     });
+
+    let talking =null;
+
+    function talk(msg) {
+        talking = add([
+            text(msg, 5, {
+                width: 160
+            }),
+            pos(50, 130)
+        ]);
+    };
 
     const health = add([
         text('100', 10),
@@ -164,6 +189,17 @@ scene('game', () => {
             value: 100,
         },
     ]);
+
+    player.collides('character', (ch) => {
+        keyPress([left, right], () => {
+            if (talking) {
+                destroy(talking);
+                talking = null;
+            }
+        });
+        talk(ch.msg);
+    })
+
 
     health.action(() => {
         player.collides('hurt', () => {
@@ -177,7 +213,7 @@ scene('game', () => {
             go('main');
         }
 
-        health.text = `health: ${health.value}`;
+        health.text = `Health: ${health.value}`;
     })
 
     // restarts game
@@ -188,30 +224,30 @@ scene('game', () => {
         go('game');
     });
 
-    keyDown(['left', 'right', 'a', 'd'], () => {
+    keyDown([left, right], () => {
         if (player.grounded() && player.curAnim() !== 'move') {
             player.play('move');
         }
     });
 
-    keyRelease(['left', 'right', 'a', 'd'], () => {
+    keyRelease([left, right], () => {
         if ((!keyIsDown('right') || !keyIsDown('a')) && (!keyIsDown('left') || !keyIsDown('d'))) {
             player.play('idle');
         }
     });
     
-    keyDown(['left', 'a'], () => {
+    keyDown(left, () => {
         player.flipX(-1);
         player.move(-player.speed, 0);
     });
     
-    keyDown(['right', 'd'], () => {
+    keyDown(right, () => {
         player.flipX(1);
         player.move(player.speed, 0);
     });
     
     // key is pressed, starts animation
-    keyPress(['space', 'up', 'w'], () => {
+    keyPress(jump, () => {
         if (player.grounded() && player.curAnim() !== 'jump') {
             play('hit', {
                 volume: 5.0
@@ -222,7 +258,7 @@ scene('game', () => {
     });
 
     // when key is released, stops animation
-    keyRelease(['space', 'up', 'w'], () => {
+    keyRelease(jump, () => {
         if (!keyIsDown('space') && !keyIsDown('up') && !keyIsDown('w')) {
             player.play('idle');
         }

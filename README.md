@@ -15,7 +15,7 @@ Controls:
     - **R** restarts game.
     - **SPACE** || **W** || **UP** to jump.
 
-[![sprite running and jumping](https://i.gyazo.com/bc28012d9b4d0c1f44a4dec2bc826cea.gif)](https://gyazo.com/bc28012d9b4d0c1f44a4dec2bc826cea)
+![sprite running and jumping](https://i.gyazo.com/bc28012d9b4d0c1f44a4dec2bc826cea.gif)
 
 Assets:
 ---
@@ -29,7 +29,9 @@ Todo:
 - [ ] Add background
 - [ ] Style page
 
-
+Known Bugs:
+---
+- Doubled speed when using **WASD** and **ARROWS**.
 
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/5ed09ce1-cabf-4469-821b-0ab910802eb7/deploy-status)](https://app.netlify.com/sites/blue-boy/deploys)
