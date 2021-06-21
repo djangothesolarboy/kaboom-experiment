@@ -7,37 +7,6 @@ kaboom({
     scale: 3 // scales the game up
 });
 
-//                  SPRITES
-//          name sprite     sprite location
-loadSprite('skele', '../assets/imgs/sprites/skele/skele.png', {
-    sliceX: 4,
-    sliceY: 6,
-    gridWidth: 4,
-    gridHeight: 6,
-    anims: {
-        down: {
-            from: 0,
-            to: 3
-        },
-        up: {
-            from: 4,
-            to: 7
-        },
-        move: {
-            from: 12,
-            to: 15
-        },
-        idle: {
-            from: 16,
-            to: 19
-        },
-        jumpup: {
-            from: 22,
-            to: 23
-        }
-    }
-});
-
 loadSprite('survivor', '../assets/imgs/sprites/survivor/survivor-blue_idle+walk+jump-4strip.png', {
     sliceX: 4,
     sliceY: 3,
@@ -97,8 +66,18 @@ scene("main", () => {
 
     // add a text at position
     add([
-        text("menu", 32),
-        pos(100, 100),
+        text(`
+            -Menu-
+        Start: 
+            Space
+        Movement: 
+            WASD or Arrows
+        Jump: 
+            W, Space or Up
+        Restart: 
+            R
+        `, 10),
+        pos(0, 50),
         layer('ui'),
     ]);
 
@@ -248,7 +227,7 @@ scene('game', () => {
             player.play('idle');
         }
     });
-})
+});
 
 // start the game
 start("main");
