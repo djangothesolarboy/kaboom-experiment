@@ -32,6 +32,7 @@ Todo:
 Known Bugs:
 ---
 - Doubled speed when using **WASD** and **ARROWS**.
+- Jumping repeatedly under platform despawns player.
 
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/5ed09ce1-cabf-4469-821b-0ab910802eb7/deploy-status)](https://app.netlify.com/sites/blue-boy/deploys)

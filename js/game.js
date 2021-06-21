@@ -231,7 +231,7 @@ scene('game', () => {
     });
 
     keyRelease([left, right], () => {
-        if ((!keyIsDown('right') || !keyIsDown('a')) && (!keyIsDown('left') || !keyIsDown('d'))) {
+        if (!keyIsDown(right) && !keyIsDown(left)) {
             player.play('idle');
         }
     });
