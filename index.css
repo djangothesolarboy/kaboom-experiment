@@ -7,5 +7,12 @@
 .game {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items:flex-start
+}
+
+.game_controls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: column;
 }

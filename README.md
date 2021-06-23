@@ -9,11 +9,11 @@ Play the game [here](https://blue-boy.netlify.app/).
 Controls:
 ---
 - Menu: 
-    - Press **Space** to start game.
+    - Press ![space bar](./assets/imgs/controls/space_bar.ico) to start game.
 - Game: 
-    - **WASD** || **ARROWS** for movement.
-    - **R** restarts game.
-    - **SPACE** || **W** || **UP** to jump.
+    - ![a button](./assets/imgs/controls/a_button.png)![d button](./assets/imgs/controls/d_button.png) || ![left arrow](./assets/imgs/controls/left_arrow.ico)![right arrow](./assets/imgs/controls/right_arrow.ico) for movement.
+    - ![r button](./assets/imgs/controls/r_button.png) restarts game.
+    - ![space bar](./assets/imgs/controls/space_bar.ico) || ![w button](./assets/imgs/controls/w_button.png) || ![up arrow](./assets/imgs/controls/up_arrow.ico) to jump.
 
 ![sprite running and jumping](https://i.gyazo.com/bc28012d9b4d0c1f44a4dec2bc826cea.gif)
 
@@ -25,7 +25,7 @@ Assets:
 
 Todo:
 ---
-- [ ] Add controls to site
+- [x] Add controls to site
 - [ ] Add background
 - [ ] Style page
 
