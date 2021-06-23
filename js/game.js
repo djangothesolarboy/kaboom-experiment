@@ -7,6 +7,9 @@ kaboom({
     scale: 3 // scales the game up
 });
 
+//////////////////////////////////////////////////////////
+//                      SPRITES                         //
+//////////////////////////////////////////////////////////
 loadSprite('survivor', '../assets/imgs/sprites/survivor/survivor-blue_idle+walk+jump-4strip.png', {
     sliceX: 4,
     sliceY: 3,
@@ -32,7 +35,14 @@ loadSprite('survivor', '../assets/imgs/sprites/survivor/survivor-blue_idle+walk+
     }
 });
 
-loadSprite('npc-idle', '../assets/imgs/sprites/npc/npc-blue_idle.gif');
+loadSprite('npc-idle', '../assets/imgs/sprites/npc/npc-blue_idle-strip.png', {
+    sliceX: 4,
+    sliceY: 1,
+    anims: {
+        from: 0,
+        to: 3
+    }
+});
 
 //////////////////////////////////////////////////////////
 //                  BACKGROUND SPRITES                  //
@@ -59,7 +69,6 @@ layers([
 
 // define a scene
 scene("main", () => {
-
     // add a text at position
     add([
         text(`
@@ -82,12 +91,15 @@ scene("main", () => {
         play('blip', {
             volume: 5.0
         });
-        go('game');
+        go('game', 0);
     });
-
 });
 
-scene('game', () => {
+//////////////////////////////////////////////////////////
+//                      GAME SCENE                      //
+//////////////////////////////////////////////////////////
+scene('game', (levelIdx) => {
+    //                      CONTROLS                        //
     const left = ['a', 'left'];
     const right = ['d', 'right'];
     const jump = ['w', 'space', 'up'];
@@ -97,7 +109,7 @@ scene('game', () => {
         pos(100, 100),
         scale(1),
         origin('center'),
-        body({ jumpForce: 320, }),
+        body({ jumpForce: 220, }),
         'player', // tags
         'killable', // tags
         { speed: 160 },
@@ -110,23 +122,44 @@ scene('game', () => {
         }
     };
 
-    const map = addLevel([
-        '=------------------]',
-        '(                  )',
-        '(                  )',
-        '(                  )',
-        '(                  )',
-        '(                  )',
-        '(                  )',
-        '(                  )',
-        '(                  )',
-        '(      n           )',
-        '(      --          )',
-        '(                  )',
-        '(         --       )',
-        '^                  )',
-        '=^^^^--------------]',
-    ], {
+    const levels = [
+        [
+            '=------------------]',
+            '(                  )',
+            '(                  )',
+            '(                  )',
+            '(                  )',
+            '(                  )',
+            '(                  )',
+            '(                  )',
+            '(                  )',
+            '( x                )',
+            '( --               )',
+            '(    --            )',
+            '(      --          )',
+            '(         --       )',
+            '=------------------]',
+        ],
+        [
+            '=------------------]',
+            '(                  )',
+            '(                  )',
+            '(                  )',
+            '(                  )',
+            '(                  )',
+            '(                  )',
+            '(                  )',
+            '(                  )',
+            '(                  )',
+            '(                  )',
+            '(      n           )',
+            '(      --          )',
+            '(         --       )',
+            '=------------------]',
+        ], 
+    ];
+
+    addLevel(levels[levelIdx], {
         width: 16,
         height: 16,
         pos: vec2(0, 0),
@@ -154,6 +187,11 @@ scene('game', () => {
             sprite('lava-brick-one'),
             solid(),
             'hurt'
+        ],
+        'x': [
+            sprite('lava-brick-one'),
+            solid(),
+            'door'
         ],
         any(ch) {
             const char = npcs[ch];
@@ -198,8 +236,7 @@ scene('game', () => {
             }
         });
         talk(ch.msg);
-    })
-
+    });
 
     health.action(() => {
         player.collides('hurt', () => {
@@ -214,14 +251,23 @@ scene('game', () => {
         }
 
         health.text = `Health: ${health.value}`;
+    });
+
+    player.collides('door', () => {
+        if (levelIdx + 1 < levels.length) {
+            go('game', levelIdx + 1);
+        }
     })
 
+    //////////////////////////////////////////////////////////
+    //                      CONTROLS                        //
+    /////////////////////////////////////////////////////////
     // restarts game
     keyPress('r', () => {
         play('blip', {
             volume: 5.0
         });
-        go('game');
+        go('game', 0);
     });
 
     keyDown([left, right], () => {
