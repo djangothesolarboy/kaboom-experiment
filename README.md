@@ -26,12 +26,17 @@ Assets:
 Todo:
 ---
 - [x] Add controls to site
-- [ ] Add background
+- [ ] Add background to game
 - [ ] Style page
+- [ ] Make more NPCs
+- [ ] Add a paralax background
+- [ ] Design inventory (image)
+- [ ] Design inventory system
+- [ ] Design more levels/maps.
 
 Known Bugs:
 ---
-- Doubled speed when using **WASD** and **ARROWS**.
+- Doubled speed when using both control options(WASD + ARROWS).
 - Jumping repeatedly under platform despawns player.
 
 
